@@ -5,13 +5,13 @@ publishMavenStyle := true
 licenses := Seq("GPL3" -> url("https://www.gnu.org/licenses/gpl-3.0.txt"))
 
 import xerial.sbt.Sonatype._
-sonatypeProjectHosting := Some(GitHubHosting("apuex", "angular-solution", "xtwxy@hotmail.com"))
+sonatypeProjectHosting := Some(GitHubHosting("apuex", "access-log-parser", "xtwxy@hotmail.com"))
 
-homepage := Some(url("https://github.com/apuex/angular-solution"))
+homepage := Some(url("https://github.com/apuex/access-log-parser"))
 scmInfo := Some(
   ScmInfo(
-    url("https://github.com/apuex/angular-solution.git"),
-    "scm:git@github.com:apuex/angular-solution.git"
+    url("https://github.com/apuex/access-log-parser.git"),
+    "scm:git@github.com:apuex/access-log-parser.git"
   )
 )
 
