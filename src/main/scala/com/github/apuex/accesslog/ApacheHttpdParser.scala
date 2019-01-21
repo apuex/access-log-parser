@@ -9,17 +9,17 @@ object ApacheHttpdParser {
   // %h %l %u [%{%Y-%m-%d %H:%M:%S}t] %D \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %I %O
 
   val fieldPatterns: Map[Field, String] = Map(
-    Host           -> "\\s*([\\d.]+)",   // %h, host
+    Host           -> "\\s*([\\d.:]+)",   // %h, host
     RemoteLogin    -> "\\s*(\\S+)",   // %l, remote logname
     RemoteUser     -> "\\s*(\\S+)",   // %u, remote user
-    //RequestTime    -> " \\[([\\w:/]+\\s[+\\-]\\d{4})\\]",   // %t, request time
-    RequestTime    -> "\\s*(\\[\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}\\])",   // %t, request time
+    RequestTime    -> "\\s*\\[([\\w:/]+\\s[+\\-]\\d{4})\\]",   // %t, request time
+    RequestTimeIO  -> "\\s*\\[(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})\\]",   // %t, request time
     TimeTaken      -> "\\s*(\\d+)",   // %D, time taken
     Request        -> "\\s*\"(.+)\"",   // %r, request
     Status         -> "\\s*(\\d{3})",   // %>s, status code
     BodyLength     -> "\\s*(\\d+)",   // %b, body length
-    Referer        -> "\\s*\"([^\"]+|.+?)\"",   // %{Referer}i,
-    UserAgent      -> "\\s*\"([^\"]+|.+?)\"",   // %{User-Agent}i,
+    Referer        -> "\\s*\"([^\"]+|(.+?))\"",   // %{Referer}i,
+    UserAgent      -> "\\s*\"([^\"]+|(.+?))\"",   // %{User-Agent}i,
     BytesReceived  -> "\\s*(\\d+)",   // %I, bytes received
     BytesSent      -> "\\s*(\\d+)"    // %O, bytes sent
   )
