@@ -21,7 +21,8 @@ object ApacheHttpdParser {
     Referer        -> "\\s*\"([^\"]+|(.+?))\"",   // %{Referer}i,
     UserAgent      -> "\\s*\"([^\"]+|(.+?))\"",   // %{User-Agent}i,
     BytesReceived  -> "\\s*(\\d+)",   // %I, bytes received
-    BytesSent      -> "\\s*(\\d+)"    // %O, bytes sent
+    BytesSent      -> "\\s*(\\d+)",   // %O, bytes sent
+    VirtualHost    -> "\\s*(\\S+)",   // %v, virtual host
   )
 
   def tokenLine(line: String, logPattern: Pattern): Array[String] = {
