@@ -77,7 +77,7 @@ class ApacheHttpdFieldParserSpec extends FlatSpec with Matchers {
   }
 
   it should "parse status code" in {
-    val pattern = Pattern.compile(fieldPatterns(Status))
+    val pattern = Pattern.compile(fieldPatterns(StatusCode))
     val expected = Array("201")
     tokenLine("201", pattern) should be(expected)
     tokenLine(" 201", pattern) should be(expected)
@@ -133,7 +133,7 @@ class ApacheHttpdFieldParserSpec extends FlatSpec with Matchers {
         RequestTimeIO,
         TimeTaken,
         Request,
-        Status,
+        StatusCode,
         BodyLength,
         Referer,
         UserAgent,
@@ -156,7 +156,7 @@ class ApacheHttpdFieldParserSpec extends FlatSpec with Matchers {
         RemoteUser,
         RequestTime,
         Request,
-        Status,
+        StatusCode,
         BodyLength
       )
         .map(fieldPatterns(_))
@@ -175,7 +175,7 @@ class ApacheHttpdFieldParserSpec extends FlatSpec with Matchers {
         RemoteUser,
         RequestTime,
         Request,
-        Status,
+        StatusCode,
         BodyLength,
         Referer,
         UserAgent
@@ -196,7 +196,7 @@ class ApacheHttpdFieldParserSpec extends FlatSpec with Matchers {
         RemoteUser,
         RequestTime,
         Request,
-        Status,
+        StatusCode,
         BodyLength,
         Referer,
         UserAgent,

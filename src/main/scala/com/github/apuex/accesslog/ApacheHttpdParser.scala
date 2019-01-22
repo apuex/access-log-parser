@@ -16,7 +16,7 @@ object ApacheHttpdParser {
     RequestTimeIO  -> "\\s*\\[(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})\\]",   // %t, request time
     TimeTaken      -> "\\s*(\\d+)",   // %D, time taken
     Request        -> "\\s*\"(.+)\"",   // %r, request
-    Status         -> "\\s*(\\d{3})",   // %>s, status code
+    StatusCode     -> "\\s*(\\d{3})",   // %>s, status code
     BodyLength     -> "\\s*(\\d+)",   // %b, body length
     Referer        -> "\\s*\"([^\"]+|(.+?))\"",   // %{Referer}i,
     UserAgent      -> "\\s*\"([^\"]+|(.+?))\"",   // %{User-Agent}i,
