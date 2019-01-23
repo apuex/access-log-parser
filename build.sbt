@@ -7,9 +7,7 @@ organization := artifactGroupName
 version      := artifactVersionNumber
 
 libraryDependencies ++= Seq(
-  slf4jApi % Test,
-  slf4jSimple % Test,
-  scalaTest % Test,
+  scalaTest % Test
 )
 
 assemblyMergeStrategy in assembly := {
