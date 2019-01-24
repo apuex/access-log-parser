@@ -92,6 +92,14 @@ class ApacheHttpdFieldParserSpec extends FlatSpec with Matchers {
     tokenLine(" 123 ", pattern) should be(expected)
   }
 
+  it should "parse body length n/a" in {
+    val pattern = Pattern.compile(fieldPatterns(BodyLength))
+    val expected = Array("-")
+    tokenLine("-", pattern) should be(expected)
+    tokenLine(" -", pattern) should be(expected)
+    tokenLine(" - ", pattern) should be(expected)
+  }
+
   it should "parse referer" in {
     val pattern = Pattern.compile(fieldPatterns(Referer))
     val expected = Array("http://192.168.0.161/bugzilla/userprefs.cgi")

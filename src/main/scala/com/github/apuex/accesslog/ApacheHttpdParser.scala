@@ -17,7 +17,7 @@ object ApacheHttpdParser {
     TimeTaken      -> "\\s*(\\d+)",   // %D, time taken
     Request        -> "\\s*\"(.+)\"",   // %r, request
     StatusCode     -> "\\s*(\\d{3})",   // %>s, status code
-    BodyLength     -> "\\s*(\\d+)",   // %b, body length
+    BodyLength     -> "\\s*(\\d+|\\-)",  // %b, body length
     Referer        -> "\\s*\"([^\"]+|(.+?))\"",   // %{Referer}i,
     UserAgent      -> "\\s*\"([^\"]+|(.+?))\"",   // %{User-Agent}i,
     BytesReceived  -> "\\s*(\\d+)",   // %I, bytes received
@@ -26,8 +26,7 @@ object ApacheHttpdParser {
   )
 
   // standard `common` format.
-  val commonPattern = Pattern.compile(
-    Array(
+  val common = Array(
       Host,
       RemoteLogin,
       RemoteUser,
@@ -36,13 +35,14 @@ object ApacheHttpdParser {
       StatusCode,
       BodyLength
     )
+  val commonPattern = Pattern.compile(
+   common 
       .map(fieldPatterns(_))
       .foldLeft("")((l, x) => l + x)
   )
 
   // standard `combined` format.
-  val combinedPattern = Pattern.compile(
-    Array(
+  val combined = Array(
       Host,
       RemoteLogin,
       RemoteUser,
@@ -53,12 +53,13 @@ object ApacheHttpdParser {
       Referer,
       UserAgent
     )
+  val combinedPattern = Pattern.compile(
+    combined
       .map(fieldPatterns(_))
       .foldLeft("")((l, x) => l + x)
   )
 
-  val combinedioPattern = Pattern.compile(
-    Array(
+  val combinedio = Array(
       Host,
       RemoteLogin,
       RemoteUser,
@@ -71,13 +72,14 @@ object ApacheHttpdParser {
       BytesReceived,
       BytesSent
     )
+  val combinedioPattern = Pattern.compile(
+    combinedio
       .map(fieldPatterns(_))
       .foldLeft("")((l, x) => l + x)
   )
 
   // standard `combinedv` format.
-  val combinedvPattern = Pattern.compile(
-    Array(
+  val combinedv = Array(
       Host,
       RemoteLogin,
       RemoteUser,
@@ -89,13 +91,14 @@ object ApacheHttpdParser {
       UserAgent,
       VirtualHost
     )
+  val combinedvPattern = Pattern.compile(
+    combinedv
       .map(fieldPatterns(_))
       .foldLeft("")((l, x) => l + x)
   )
 
   // customized profiler format.
-  val profilerPattern = Pattern.compile(
-    Array(
+  val profiler = Array(
       Host,
       RemoteLogin,
       RemoteUser,
@@ -109,6 +112,8 @@ object ApacheHttpdParser {
       BytesReceived,
       BytesSent
     )
+  val profilerPattern = Pattern.compile(
+    profiler
       .map(fieldPatterns(_))
       .foldLeft("")((l, x) => l + x)
   )
