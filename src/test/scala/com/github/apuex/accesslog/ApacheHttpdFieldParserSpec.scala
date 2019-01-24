@@ -125,109 +125,27 @@ class ApacheHttpdFieldParserSpec extends FlatSpec with Matchers {
   }
 
   it should "parse common" in {
-    // standard `common` format.
-    val linePattern = Pattern.compile(
-      Array(
-        Host,
-        RemoteLogin,
-        RemoteUser,
-        RequestTime,
-        Request,
-        StatusCode,
-        BodyLength
-      )
-        .map(fieldPatterns(_))
-        .foldLeft("")((l, x) => l + x)
-    )
     val expected = Array("0:0:0:0:0:0:0:1", "-", "-", "02/Jul/2017:14:17:36 +0800", "POST /my-12306/login?action=login HTTP/1.1", "200", "4133")
-    tokenLine("0:0:0:0:0:0:0:1 - - [02/Jul/2017:14:17:36 +0800] \"POST /my-12306/login?action=login HTTP/1.1\" 200 4133", linePattern).filter(_ != null) should be(expected)
+    tokenLine("0:0:0:0:0:0:0:1 - - [02/Jul/2017:14:17:36 +0800] \"POST /my-12306/login?action=login HTTP/1.1\" 200 4133", commonPattern).filter(_ != null) should be(expected)
   }
 
   it should "parse combined" in {
-    // standard `combined` format.
-    val linePattern = Pattern.compile(
-      Array(
-        Host,
-        RemoteLogin,
-        RemoteUser,
-        RequestTime,
-        Request,
-        StatusCode,
-        BodyLength,
-        Referer,
-        UserAgent
-      )
-        .map(fieldPatterns(_))
-        .foldLeft("")((l, x) => l + x)
-    )
     val expected = Array("::1", "-", "-", "11/Jan/2018:22:10:43 +0800", "GET /~master/ HTTP/1.1", "200", "4011", "-", "Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:57.0) Gecko/20100101 Firefox/57.0")
-    tokenLine("::1 - - [11/Jan/2018:22:10:43 +0800] \"GET /~master/ HTTP/1.1\" 200 4011 \"-\" \"Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:57.0) Gecko/20100101 Firefox/57.0\"", linePattern).filter(_ != null) should be(expected)
+    tokenLine("::1 - - [11/Jan/2018:22:10:43 +0800] \"GET /~master/ HTTP/1.1\" 200 4011 \"-\" \"Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:57.0) Gecko/20100101 Firefox/57.0\"", combinedPattern).filter(_ != null) should be(expected)
   }
 
   it should "parse combinedio" in {
-    val linePattern = Pattern.compile(
-      Array(
-        Host,
-        RemoteLogin,
-        RemoteUser,
-        RequestTime,
-        Request,
-        StatusCode,
-        BodyLength,
-        Referer,
-        UserAgent,
-        BytesReceived,
-        BytesSent
-      )
-        .map(fieldPatterns(_))
-        .foldLeft("")((l, x) => l + x)
-    )
     val expected = Array("192.168.0.78", "-", "-", "11/Jan/2018:22:10:43 +0800", "GET /bugzilla/userprefs.cgi?tab=email HTTP/1.1", "200", "21797", "http://192.168.0.161/bugzilla/userprefs.cgi", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:64.0) Gecko/20100101 Firefox/64.0", "798", "22397")
-    tokenLine("192.168.0.78 - - [11/Jan/2018:22:10:43 +0800] \"GET /bugzilla/userprefs.cgi?tab=email HTTP/1.1\" 200 21797 \"http://192.168.0.161/bugzilla/userprefs.cgi\" \"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:64.0) Gecko/20100101 Firefox/64.0\" 798 22397", linePattern).filter(_ != null) should be(expected)
+    tokenLine("192.168.0.78 - - [11/Jan/2018:22:10:43 +0800] \"GET /bugzilla/userprefs.cgi?tab=email HTTP/1.1\" 200 21797 \"http://192.168.0.161/bugzilla/userprefs.cgi\" \"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:64.0) Gecko/20100101 Firefox/64.0\" 798 22397", combinedioPattern).filter(_ != null) should be(expected)
   }
 
-  it should "parse customized io(time taken added)" in {
-    val linePattern = Pattern.compile(
-      Array(
-        Host,
-        RemoteLogin,
-        RemoteUser,
-        RequestTimeIO,
-        TimeTaken,
-        Request,
-        StatusCode,
-        BodyLength,
-        Referer,
-        UserAgent,
-        BytesReceived,
-        BytesSent
-      )
-        .map(fieldPatterns(_))
-        .foldLeft("")((l, x) => l + x)
-    )
+  it should "parse customized profiler io(time taken added)" in {
     val expected = Array("192.168.0.78", "-", "-", "2019-01-21 15:17:54", "738068", "GET /bugzilla/userprefs.cgi?tab=email HTTP/1.1", "200", "21797", "http://192.168.0.161/bugzilla/userprefs.cgi", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:64.0) Gecko/20100101 Firefox/64.0", "798", "22397")
-    tokenLine("192.168.0.78 - - [2019-01-21 15:17:54] 738068 \"GET /bugzilla/userprefs.cgi?tab=email HTTP/1.1\" 200 21797 \"http://192.168.0.161/bugzilla/userprefs.cgi\" \"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:64.0) Gecko/20100101 Firefox/64.0\" 798 22397", linePattern).filter(_ != null) should be(expected)
+    tokenLine("192.168.0.78 - - [2019-01-21 15:17:54] 738068 \"GET /bugzilla/userprefs.cgi?tab=email HTTP/1.1\" 200 21797 \"http://192.168.0.161/bugzilla/userprefs.cgi\" \"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:64.0) Gecko/20100101 Firefox/64.0\" 798 22397", profilerPattern).filter(_ != null) should be(expected)
   }
 
   it should "parse combinedv" in {
-    // standard `combinedv` format.
-    val linePattern = Pattern.compile(
-      Array(
-        Host,
-        RemoteLogin,
-        RemoteUser,
-        RequestTime,
-        Request,
-        StatusCode,
-        BodyLength,
-        Referer,
-        UserAgent,
-        VirtualHost
-      )
-        .map(fieldPatterns(_))
-        .foldLeft("")((l, x) => l + x)
-    )
     val expected = Array("::1", "-", "-", "11/Jan/2018:22:10:43 +0800", "GET /~master/ HTTP/1.1", "200", "4011", "-", "Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:57.0) Gecko/20100101 Firefox/57.0", "concerto")
-    tokenLine("::1 - - [11/Jan/2018:22:10:43 +0800] \"GET /~master/ HTTP/1.1\" 200 4011 \"-\" \"Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:57.0) Gecko/20100101 Firefox/57.0\" concerto", linePattern).filter(_ != null) should be(expected)
+    tokenLine("::1 - - [11/Jan/2018:22:10:43 +0800] \"GET /~master/ HTTP/1.1\" 200 4011 \"-\" \"Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:57.0) Gecko/20100101 Firefox/57.0\" concerto", combinedvPattern).filter(_ != null) should be(expected)
   }
 }

@@ -25,6 +25,94 @@ object ApacheHttpdParser {
     VirtualHost    -> "\\s*(\\S+)",   // %v, virtual host
   )
 
+  // standard `common` format.
+  val commonPattern = Pattern.compile(
+    Array(
+      Host,
+      RemoteLogin,
+      RemoteUser,
+      RequestTime,
+      Request,
+      StatusCode,
+      BodyLength
+    )
+      .map(fieldPatterns(_))
+      .foldLeft("")((l, x) => l + x)
+  )
+
+  // standard `combined` format.
+  val combinedPattern = Pattern.compile(
+    Array(
+      Host,
+      RemoteLogin,
+      RemoteUser,
+      RequestTime,
+      Request,
+      StatusCode,
+      BodyLength,
+      Referer,
+      UserAgent
+    )
+      .map(fieldPatterns(_))
+      .foldLeft("")((l, x) => l + x)
+  )
+
+  val combinedioPattern = Pattern.compile(
+    Array(
+      Host,
+      RemoteLogin,
+      RemoteUser,
+      RequestTime,
+      Request,
+      StatusCode,
+      BodyLength,
+      Referer,
+      UserAgent,
+      BytesReceived,
+      BytesSent
+    )
+      .map(fieldPatterns(_))
+      .foldLeft("")((l, x) => l + x)
+  )
+
+  // standard `combinedv` format.
+  val combinedvPattern = Pattern.compile(
+    Array(
+      Host,
+      RemoteLogin,
+      RemoteUser,
+      RequestTime,
+      Request,
+      StatusCode,
+      BodyLength,
+      Referer,
+      UserAgent,
+      VirtualHost
+    )
+      .map(fieldPatterns(_))
+      .foldLeft("")((l, x) => l + x)
+  )
+
+  // customized profiler format.
+  val profilerPattern = Pattern.compile(
+    Array(
+      Host,
+      RemoteLogin,
+      RemoteUser,
+      RequestTimeIO,
+      TimeTaken,
+      Request,
+      StatusCode,
+      BodyLength,
+      Referer,
+      UserAgent,
+      BytesReceived,
+      BytesSent
+    )
+      .map(fieldPatterns(_))
+      .foldLeft("")((l, x) => l + x)
+  )
+
   def tokenLine(line: String, logPattern: Pattern): Array[String] = {
     val m = logPattern.matcher(line)
     if(m.find()) {
