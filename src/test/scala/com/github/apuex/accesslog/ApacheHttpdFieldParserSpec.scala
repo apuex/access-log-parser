@@ -108,6 +108,14 @@ class ApacheHttpdFieldParserSpec extends FlatSpec with Matchers {
     tokenLine(" \"http://192.168.0.161/bugzilla/userprefs.cgi\" ", pattern).filter(_ != null) should be(expected)
   }
 
+  it should "parse empty referer" in {
+    val pattern = Pattern.compile(fieldPatterns(Referer))
+    val expected = Array("")
+    tokenLine("\"\"", pattern).filter(_ != null) should be(expected)
+    tokenLine(" \"\"", pattern).filter(_ != null) should be(expected)
+    tokenLine(" \"\" ", pattern).filter(_ != null) should be(expected)
+  }
+
   it should "parse user agent" in {
     val pattern = Pattern.compile(fieldPatterns(UserAgent))
     val expected = Array("Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:64.0) Gecko/20100101 Firefox/64.0")

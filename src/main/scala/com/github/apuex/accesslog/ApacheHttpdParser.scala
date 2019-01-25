@@ -18,7 +18,7 @@ object ApacheHttpdParser {
     Request        -> "\\s*\"(.+)\"",   // %r, request
     StatusCode     -> "\\s*(\\d{3})",   // %>s, status code
     BodyLength     -> "\\s*(\\d+|\\-)",  // %b, body length
-    Referer        -> "\\s*\"([^\"]+|(.+?))\"",   // %{Referer}i,
+    Referer        -> "\\s*\"(.*)\"",   // %{Referer}i,
     UserAgent      -> "\\s*\"([^\"]+|(.+?))\"",   // %{User-Agent}i,
     BytesReceived  -> "\\s*(\\d+)",   // %I, bytes received
     BytesSent      -> "\\s*(\\d+)",   // %O, bytes sent
