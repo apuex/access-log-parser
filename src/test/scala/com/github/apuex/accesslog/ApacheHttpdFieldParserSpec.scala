@@ -145,7 +145,12 @@ class ApacheHttpdFieldParserSpec extends FlatSpec with Matchers {
     tokenLine("0:0:0:0:0:0:0:1 - - [02/Jul/2017:14:17:36 +0800] \"POST /my-12306/login?action=login HTTP/1.1\" 200 4133", commonPattern).filter(_ != null) should be(expected)
   }
 
-  it should "parse combined" in {
+  it should "parse combined 1" in {
+    val expected = Array("192.168.9.6", "-", "-", "22/Jan/2019:11:33:04 +0800", "GET /mobileapi/api/message/getSubscriptions HTTP/1.1", "200", "97", "-", "Dalvik/2.1.0 (Linux; U; Android 7.1.1; MP1602 Build/NMF26O)")
+    tokenLine("192.168.9.6 - - [22/Jan/2019:11:33:04 +0800] \"GET /mobileapi/api/message/getSubscriptions HTTP/1.1\" 200 97 \"-\" \"Dalvik/2.1.0 (Linux; U; Android 7.1.1; MP1602 Build/NMF26O)\"", combinedPattern).filter(_ != null) should be(expected)
+  }
+
+  it should "parse combined 2" in {
     val expected = Array("::1", "-", "-", "11/Jan/2018:22:10:43 +0800", "GET /~master/ HTTP/1.1", "200", "4011", "-", "Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:57.0) Gecko/20100101 Firefox/57.0")
     tokenLine("::1 - - [11/Jan/2018:22:10:43 +0800] \"GET /~master/ HTTP/1.1\" 200 4011 \"-\" \"Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:57.0) Gecko/20100101 Firefox/57.0\"", combinedPattern).filter(_ != null) should be(expected)
   }
