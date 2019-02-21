@@ -6,12 +6,17 @@
     <artifactId>apuex-parent</artifactId>
     <version>1.0.1</version>
   </parent>
-      <groupId>com.github.apuex.accesslog</groupId>
+  <groupId>com.github.apuex.accesslog</groupId>
   <artifactId>access-log-parser</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <name>${project.artifactId}</name>
-
+  <scm>
+    <connection>${scm.url}</connection>
+    <developerConnection>${scm.url}</developerConnection>
+    <url>${scm.url}</url>
+  </scm>
   <properties>
+    <scm.url>scm:git:https://github.com/apuex/access-log-parser.git</scm.url>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <encoding>UTF-8</encoding>
